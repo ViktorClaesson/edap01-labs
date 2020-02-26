@@ -27,7 +27,7 @@ def loocv_logreg(X, y, w, alpha=1.0):
         index = index_list.pop(0)
         w = np.zeros(len(X[0]))
         w = logistic_regression(X, y, w, index)
-        hw = 1.0 if (threshold(w, X[index]) >= 0.5) else 0.0
+        hw = 1.0 if (h_w(w, X[index]) >= 0.5) else 0.0
         if hw == y[index]:
             correct += 1
         index_list.append(index)
@@ -63,6 +63,7 @@ if __name__ == "__main__":
     alpha = 1.0
 
     w = logistic_regression(X, y, w)
+    print(' --- Logistic Regression Stochastic --- ')
     print(w)
     plot_log(X[:15], X[15:], w)
 
@@ -70,5 +71,6 @@ if __name__ == "__main__":
 
     w = np.zeros(len(X[0]))
     w = loocv_logreg(X, y, w)
+    print(' --- Leave-one-out Cross Validation --- ')
     print(w)
     plot_log(X[:15], X[15:], w)

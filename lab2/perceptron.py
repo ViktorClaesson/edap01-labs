@@ -62,9 +62,11 @@ if __name__ == "__main__":
     alpha = 1.0
 
     w = perceptron(X, y, alpha, w, list(range(len(X))))
+    print(' --- Perceptron --- ')
     plot(X, y, w)
 
     w = np.zeros(X.shape[1]).reshape((-1,1))
     
     w = perceptron2(X, y, alpha, w)
+    print(' --- Leave-one-out Cross Validation --- ')
     plot(X, y, w)
