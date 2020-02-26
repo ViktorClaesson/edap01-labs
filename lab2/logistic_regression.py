@@ -3,7 +3,7 @@ import random
 import datasets
 import matplotlib.pyplot as plt
 
-def threshold(w, x):
+def h_w(w, x):
     return 1 / (1 + np.exp(-w @ x))
 
 def logistic_regression(X, y, w, alpha=1.0):
@@ -12,7 +12,7 @@ def logistic_regression(X, y, w, alpha=1.0):
         random.shuffle(index_list)
         w_old = w
         for i in index_list:
-            w = w + alpha * X[i] * (y[i] - threshold(w, X[i]))
+            w = w + alpha * X[i] * (y[i] - h_w(w, X[i]))
         if np.linalg.norm(w - w_old) / np.linalg.norm(w) < 0.005:
             print('Epoch: {}'.format(epoch))
             break
