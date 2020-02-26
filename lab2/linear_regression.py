@@ -1,5 +1,4 @@
 import random
-import vector
 import datasets
 import numpy as np
 import sys

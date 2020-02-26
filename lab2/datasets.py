@@ -1,10 +1,5 @@
-"""
-Reader of libsvm format
-"""
-__author__ = 'Pierre Nugues'
 import numpy as np
 from urllib.request import urlopen
-
 
 def read_libsvm(file_path):
     """
@@ -22,20 +17,6 @@ def read_libsvm(file_path):
     return X, y
 
 
-def read_array_from_tsv(file_path):
-    """
-    Read a tsv file. The response is the last column
-    :param file_path:
-    :return: X, y as np.array
-    """
-    observations = open(file_path).read().strip().split('\n')
-    observations = [list(map(float, obs.split())) for obs in observations]
-    X = np.array(observations)[:, :-1]
-    X = np.hstack((np.ones((len(X), 1)), X))
-    y = np.array(observations)[:, -1]
-    return X, y
-
-
 def read_tsv(file_path):
     """
     Read a tsv file. The response is the last column
@@ -47,15 +28,6 @@ def read_tsv(file_path):
     X = [obs[:-1] for obs in observations]
     y = [obs[-1] for obs in observations]
     return X, y
-
-
-def load_tsv(file):
-    observations = urlopen(file).read().decode('utf-8').strip().split('\n')
-    observations = [[1] + list(map(float, obs.split())) for obs in observations]
-    X = [obs[:-1] for obs in observations]
-    y = [obs[-1] for obs in observations]
-    return X, y
-
 
 if __name__ == '__main__':
     X, y = read_tsv('resources/salammbo_a_en.tsv')
