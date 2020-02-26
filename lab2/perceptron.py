@@ -1,4 +1,3 @@
-from gradient_descent import stoch_descent
 import numpy as np
 import random
 import datasets
@@ -47,8 +46,8 @@ def plot(X, y, w):
     k = w[1][0] / -w[2][0]
     m = w[0][0] / -w[2][0]
     print("y = {0}x + {1}".format(k, m))
-    plt.plot([X[i][1] for i in range(len(X)) if y[i] == 0], [X[i][2] for i in range(len(X)) if y[i] == 0], 'r*')
-    plt.plot([X[i][1] for i in range(len(X)) if y[i] == 1], [X[i][2] for i in range(len(X)) if y[i] == 1], 'b*')
+    plt.plot([xs[1] for xs in X[:15]], [xs[2] for xs in X[:15]], 'r*')
+    plt.plot([xs[1] for xs in X[15:]], [xs[2] for xs in X[15:]], 'b*')
     x = range(85000)
     plt.plot(x, (x*k + m), 'c-')
     plt.xlim(10000, 85000)
@@ -57,9 +56,8 @@ def plot(X, y, w):
 if __name__ == "__main__":
     X, y = datasets.read_libsvm('resources/salammbo_a.libsvm')
     X = np.array(X)
+    y = np.array(y)
     w = np.zeros(X.shape[1]).reshape((-1,1))
-    
-    print(X)
 
     alpha = 1.0
 
