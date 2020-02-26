@@ -87,7 +87,7 @@ if __name__ == '__main__':
     normalized = True
     debug = False
     X, y = datasets.load_tsv(
-        'https://raw.githubusercontent.com/pnugues/ilppp/master/programs/ch04/salammbo/salammbo_a_en.tsv')
+        './salammbo_a_en.tsv')
 
     alpha = 1.0e-10
     if normalized:

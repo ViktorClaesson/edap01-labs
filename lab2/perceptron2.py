@@ -4,28 +4,12 @@ import numpy as np
 import random
 import matplotlib.pyplot as plt
 
-def perceptron(X, label, alpha, w):
-    idx = list(range(len(X)))
-    leftout_idx = []
-    correct = 0
-
-    missclassified = 0
-    for epoch in range(30):
-
+def perceptron(X, label, alpha, w, idx):
+    for epoch in range(500):
+        alpha = 1000 / (1000 + epoch)
+        missclassified = 0
         random.shuffle(idx)
-        # print(idx)
-        loo_idx = idx.pop(0)
-        # print(loo_idx)
-        leftout_idx.append(loo_idx)
-        tmp_idx = leftout_idx[:-1]
-        # print(tmp_idx)
-        # print(leftout_idx)
-
-        loocv_idx = idx + tmp_idx
-        random.shuffle(loocv_idx)
-        # print(loocv_idx)
-
-        for i in loocv_idx:
+        for i in idx:
             x = X[i]
             label_i = label[i]
             hw = 1.0 if (np.dot(w.T, x)[0] >= 0.0) else 0.0
@@ -37,16 +21,26 @@ def perceptron(X, label, alpha, w):
                 missclassified += 1
                 for i in range(len(x)):
                     w[i][0] = w[i][0] + x[i] * -alpha
+        if missclassified == 0:
+            break
+    print('Epoch: {}'.format(epoch))
+    return w
 
+def perceptron_loocv(X, label, alpha, w):
+    idx = list(range(len(X)))
+    correct = 0
+    
+    for i in range(len(X)):
+        random.shuffle(idx)
+        loo_idx = idx.pop(0)
+        w = np.zeros(X.shape[1]).reshape((-1,1))
+        w = perceptron(X, label, alpha, w, idx)
         hw = 1.0 if (np.dot(w.T, X[loo_idx])[0] >= 0.0) else 0.0
         if hw == label[loo_idx]:
             correct += 1
-    if missclassified / len(X) < 10.0:
-        return
-    print('Epoch: {}, missclassified: {}'.format(epoch, missclassified / len(X)))
-    # print('Epoch: {}'.format(epoch))
-    print('Correct: {}'.format(correct))
-
+        idx.append(loo_idx)
+    print(correct)
+    return w
 
 def plot_points(lang, color):
     print(lang)
@@ -76,6 +70,10 @@ if __name__ == "__main__":
     label = [0.0 for _ in range(len(en))] + [1.0 for _ in range(len(fr))]
     alpha = 1.0
 
-    for i in range(10):
-        perceptron(X, label, alpha, w)
+    w = perceptron(X, label, alpha, w, list(range(len(X))))
+    plot(en, fr, w)
+
+    w = np.zeros(X.shape[1]).reshape((-1,1))
+    
+    w = perceptron_loocv(X, label, alpha, w)
     plot(en, fr, w)
