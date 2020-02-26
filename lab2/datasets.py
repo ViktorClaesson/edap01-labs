@@ -6,7 +6,7 @@ import numpy as np
 from urllib.request import urlopen
 
 
-def read_libsvm_file(file_path):
+def read_libsvm(file_path):
     """
     Read a libsvm file. The format is not sparse
     :param file_path:
@@ -58,12 +58,9 @@ def load_tsv(file):
 
 
 if __name__ == '__main__':
-    X, y = read_tsv('../salammbo/salammbo_a_en.tsv')
+    X, y = read_tsv('resources/salammbo_a_en.tsv')
     print('X:', X)
     print('y:', y)
-    X, y = load_tsv('https://raw.githubusercontent.com/pnugues/ilppp/master/programs/ch04/salammbo/salammbo_a_en.tsv')
-    print('X:', X)
-    print('y:', y)
-    X, y = read_libsvm_file('../salammbo/salammbo_a_e_binary.libsvm')
+    X, y = read_libsvm('resources/salammbo_a.libsvm')
     print('X:', X)
     print('y:', y)
